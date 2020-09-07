@@ -8,7 +8,9 @@
   },
   "scripts": {
     "minify": "node services/minifier.js",
-    "start:dev": "nodemon --ignore dist/ --exec npm run minify"
+    "build": "browserify main.js -o dist/build.js",
+    "pack": "npm run build && npm run minify",
+    "start:dev": "nodemon --ignore dist/ --exec npm run pack"
   },
   "repository": {
     "type": "git",
