@@ -5,6 +5,9 @@
 ## Table of Contents
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
+- [Possible Penalties](#possible-penalties)
+- [Properties](#properties)
+- [Methods](#methods)
 
 <br>
 
@@ -94,3 +97,8 @@ Get the list of penalties regarding pasting
 ACFOC.getChangeFocusPenalty()
 ```
 Get the list of penalties regarding changing focus
+
+---
+## Support the project
+- [Patreon](https://patreon.com/jabobernardo)
+- [Ko-fi](https://ko-fi.com/jabobernardo)
