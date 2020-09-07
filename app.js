@@ -1,5 +1,9 @@
 class ACFOC {
 
+	DEFAULT_TIMEOUT = 30000;
+	DEFAULT_THRESHOLD = 0.1;
+	VERSION = 'acfoc-0.0.0'
+
 	constructor(opt = {}) {
 		const {
 			idleTimeout,
@@ -13,13 +17,6 @@ class ACFOC {
 		this._idleWatcher = null;
 		this._allowCopy = allowCopy;
 		this._allowPaste = allowPaste;
-
-		/**
-		 * Defaults
-		 */
-		this.DEFAULT_TIMEOUT = 30000;
-		this.DEFAULT_THRESHOLD = 0.1;
-		this.VERSION = 'acfoc-0.0.0'
 	}
 
 	initialize = () => {
