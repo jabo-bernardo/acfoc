@@ -167,6 +167,3 @@ class ACFOC {
 	getChangeFocusPenalty() { return this.getListOf('CHANGE_FOCUS') }
 
 }
-
-const acfoc = new ACFOC();
-acfoc.initialize();
