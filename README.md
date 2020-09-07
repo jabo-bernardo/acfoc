@@ -7,7 +7,6 @@
 - [Basic Usage](#basic-usage)
 
 <br>
-<br>
 
 ## Getting Started
 
@@ -20,7 +19,6 @@ Import the package  via [JSDelivr](https://jsdelivr.net)
 ```
 
 <br>
-<br>
 
 ---
 ## Basic Usage
@@ -31,7 +29,6 @@ acfoc.initialize();
 ```
 To verify that the code above is working check the devtools and you should see a log from the ACFOC script.
 
-<br>
 <br>
 
 ---
@@ -58,7 +55,6 @@ This penalty will trigger when the user did the following:
 - Opened another application
 
 <br>
-<br>
 
 ---
 ## Properties
@@ -78,7 +74,6 @@ const _ = new ACFOC({
 	- `paste` : {Number} - Score will give the user on pasting
 	- `changeFocus` : {Number} - Score will give the user on tab changing, opening another application, or opening developer tools
 
-<br>
 <br>
 
 ---
