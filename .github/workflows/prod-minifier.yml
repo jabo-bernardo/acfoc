@@ -2,7 +2,10 @@ on: [push]
 
 jobs:
   minify_job:
+    runs-on: ubuntu-latest
+    name: Minify Job
     steps: 
+    - runs-on: 
     - uses: actions/checkout@v2
     - name: Minify for Production
       uses: nizarmah/auto-minify@v1.9
