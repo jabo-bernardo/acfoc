@@ -161,9 +161,10 @@ class ACFOC {
 	 * Retrieves the penalty based on the given event.
 	 */
 	getListOf(penalty) { return this.penalties.filter(current => current.reason == penalty); }
-	getIdlePenalty() { return this.getListOf('CHANGE_FOCUS'); }
+	getIdlePenalty() { return this.getListOf('IDLE'); }
 	getCopyPenalty() { return this.getListOf('COPY'); }
 	getPastePenalty() {	return this.getListOf('PASTE'); }
+	getChangeFocusPenalty() { return this.getListOf('CHANGE_FOCUS') }
 
 }
 
