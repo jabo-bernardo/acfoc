@@ -1,19 +1,19 @@
 class ACFOC {
 
 	DEFAULT_TIMEOUT = 30000;
-	DEFAULT_THRESHOLD = 0.1;
+	DEFAULT_SCORE = 0.1;
 	VERSION = 'acfoc-0.0.0'
 
 	constructor(opt = {}) {
 		const {
 			idleTimeout,
-			thresholds,
+			scores,
 			allowCopy,
 			allowPaste
 		} = opt;
 		this.penalties = [];
 		this._idleTimeout = idleTimeout || this.DEFAULT_TIMEOUT;
-		this._thresholds = thresholds;
+		this._scores = scores;
 		this._idleWatcher = null;
 		this._allowCopy = allowCopy;
 		this._allowPaste = allowPaste;
@@ -33,40 +33,40 @@ class ACFOC {
 
 		if(!this._allowCopy) {
 			this._addEventPenalty('copy', e => {
-				this.addPenalty('COPY', this.getThresholdFor('copy'));
+				this.addPenalty('COPY', this.getscoreFor('copy'));
 				e.preventDefault();
 			});
 		}
 
 		if(!this._allowPaste) {
 			this._addEventPenalty('paste', e => {
-				this.addPenalty('PASTE', this.getThresholdFor('paste'));
+				this.addPenalty('PASTE', this.getscoreFor('paste'));
 				e.preventDefault();
 			});
 		}
 
 		this._addEventPenalty('blur', e => {
-			this.addPenalty('CHANGE_FOCUS', this.getThresholdFor('changeFocus'));
+			this.addPenalty('CHANGE_FOCUS', this.getscoreFor('changeFocus'));
 		});
 
 		return this;
 	}
 
-	addPenalty = (reason, threshold = this.DEFAULT_THRESHOLD) => {	
+	addPenalty = (reason, score = this.DEFAULT_SCORE) => {	
 		this.penalties = [...this.penalties, {
 			reason,
-			threshold: threshold || this.DEFAULT_THRESHOLD
+			score: score || this.DEFAULT_score
 		}];
 		return this;
 	}
 
-	getThresholdFor = event => {
-		return this._thresholds[event]
+	getscoreFor = event => {
+		return this._scores[event]
 	}
 
 	_resetIdle = () => {
 		clearTimeout(this._idleWatcher);
-		this._idleWatcher = setTimeout(() => this.addPenalty('IDLE', this.getThresholdFor('idle')), this._idleTimeout);
+		this._idleWatcher = setTimeout(() => this.addPenalty('IDLE', this.getscoreFor('idle')), this._idleTimeout);
 		return this;
 	}
 
@@ -78,7 +78,7 @@ class ACFOC {
 }
 
 const acfoc = new ACFOC({
-	thresholds: {
+	scores: {
 		
 	},
 	allowCopy: true

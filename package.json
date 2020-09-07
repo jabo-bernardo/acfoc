@@ -1,0 +1,27 @@
+{
+  "name": "acfoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/build.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "minify": "node services/minifier.js",
+    "start:dev": "nodemon --ignore dist/ --exec npm run minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jabo-bernardo/acfoc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jabo-bernardo/acfoc/issues"
+  },
+  "homepage": "https://github.com/jabo-bernardo/acfoc#readme",
+  "devDependencies": {
+    "minify": "^5.1.1"
+  }
+}
