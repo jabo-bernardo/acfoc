@@ -1,8 +1,7 @@
 on: [push]
 
 steps: 
-  uses: actions/checkout@v2
-
+  - uses: actions/checkout@v2
   - name: Minify for Production
     uses: nizarmah/auto-minify@v1.9
   
