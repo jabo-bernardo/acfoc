@@ -97,6 +97,14 @@ Get the list of penalties regarding pasting
 ACFOC.getChangeFocusPenalty()
 ```
 Get the list of penalties regarding changing focus
+```js
+ACFOC.hasSuspectedCheating()
+```
+Returns true if the user have at least 1 penalties
+```js
+ACFOC.getTotalScore()
+```
+Get the total score based on all of the penalties
 
 ---
 ## Support the project
