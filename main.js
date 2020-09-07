@@ -1,3 +1,14 @@
+/**
+ * ACFOC is a JavaScript library for cheating protection
+ * on online classes. This library will record how the user
+ * interact with the website such as inactivity, copying, 
+ * pasting, and tab changing.
+ * 
+ * REPOSITORY: https://github.com/jabo-bernardo/acfoc.git
+ * BUGS: https://github.com/jabo-bernardo/acfoc/issues
+ * 
+ * @author jabo-bernardo <joelvincent.work@gmail.com>
+ */
 
 class ACFOC {
 
@@ -5,6 +16,16 @@ class ACFOC {
 	DEFAULT_SCORE = 0.1;
 	VERSION = 'acfoc-0.0.0'
 
+	/**
+	 * Create a new instance of ACFOC
+	 * 
+	 * @param {object} opt 
+	 * @property {number} idleTimeout?			- Allowed time for idling. Defaults to ACFOC.DEFAULT_TIMEOUT
+	 * @property {object} scores? 				- Customized penalty scoring.
+	 * @property {boolean} allowCopy?			- Whether to allow copying (aka ctrl+c) or not. Defaults to false
+	 * @property {boolean} allowPaste?			- Whether to allow pasting (aka ctrl+v) or not. Defaults to false
+	 * @property {boolean} allowIdle?			- Whether to allow idling or not. Defaults to false
+	 */
 	constructor(opt) {
 		let {
 			idleTimeout,
@@ -14,20 +35,46 @@ class ACFOC {
 			allowIdle
 		} = opt;
 
+		/**
+		 * Validations
+		 */
 		if(!idleTimeout) idleTimeout = this.DEFAULT_TIMEOUT;
 
+		/**
+		 * List of penalties
+		 */
 		this.penalties = [];
-		this._idleTimeout = idleTimeout;
+
+		/**
+		 * 
+		 * (Optional) Score Customization
+		 */
 		this._scores = scores;
+
+		/**
+		 * Idle Watcher
+		 */
 		this._idleWatcher = null;
+		this._idleTimeout = idleTimeout;
+		
+
+		/**
+		 * Configurations
+		 */
 		this._allowCopy = allowCopy;
 		this._allowPaste = allowPaste;
 		this._allowIdle = allowIdle;
 	}
 
+	/**
+	 * [REQUIRED] Initializes ACFOC.
+	 * 
+	 * @returns {ACFOC}
+	 */
 	initialize = () => {
 		console.log(`%c This page is protected by ACFOC (Anti-Cheating For Online Classes)`, 'color: orange; font-size: 1rem; font-weight: bold; text-shadow: 1px 1px 0px black, 2px 2px 0px white')
 
+		// Idling
 		if(!this._allowIdle) {
 			this._addEventPenalty('load', this._resetIdle)
 				._addEventPenalty('mousemove', this._resetIdle)
@@ -37,6 +84,7 @@ class ACFOC {
 				._addEventPenalty('keydown', this._resetIdle);
 		}
 
+		// Copying
 		if(!this._allowCopy) {
 			this._addEventPenalty('copy', e => {
 				this.addPenalty('COPY', this.getScoreFor('copy'));
@@ -44,6 +92,7 @@ class ACFOC {
 			});
 		}
 
+		// Pasting
 		if(!this._allowPaste) {
 			this._addEventPenalty('paste', e => {
 				this.addPenalty('PASTE', this.getScoreFor('paste'));
@@ -51,6 +100,7 @@ class ACFOC {
 			});
 		}
 
+		// Tab Changing/ Opening Dev Tools
 		this._addEventPenalty('blur', e => {
 			this.addPenalty('CHANGE_FOCUS', this.getScoreFor('changeFocus'));
 		});
@@ -58,6 +108,15 @@ class ACFOC {
 		return this;
 	}
 
+	/**
+	 * 
+	 * Adds penalty to the user
+	 * 
+	 * @param {string} reason 		- Penalty reason
+	 * @param {number} score 		- Penalty Score. Defaults to ACFOC.DEFAULT_SCORE
+	 * 
+	 * @private
+	 */
 	addPenalty = (reason, score = this.DEFAULT_SCORE) => {	
 		this.penalties = [...this.penalties, {
 			reason,
@@ -66,43 +125,47 @@ class ACFOC {
 		return this;
 	}
 
+	/**	
+	 * @param {string} event  	- Events such as 'PASTE', 'COPY', 'CHANGE_FOCUS'
+	 * 
+	 * @private
+	 */
 	getScoreFor = event => {
 		return this._scores[event]
 	}
 
+	/**
+	 * Resets the idle timer
+	 * 
+	 * @private
+	 */
 	_resetIdle = () => {
 		clearTimeout(this._idleWatcher);
 		this._idleWatcher = setTimeout(() => this.addPenalty('IDLE', this.getScoreFor('idle')), this._idleTimeout);
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param {string} evt - The name of the event. e.g 'mousemove', 'click', and more
+	 * @param {function} cb - Callback when the event has triggered
+	 */
 	_addEventPenalty(evt, cb) {
 		window.addEventListener(evt, cb);
 		return this;
 	}
 
-	getIdlePenalty() {
-		return this.getListOf('CHANGE_FOCUS');
-	}
-
-	getCopyPenalty() {
-		return this.getListOf('COPY');
-	}
-
-	getPastePenalty() {
-		return this.getListOf('PASTE');
-	}
-
-	getListOf(penalty) {
-		return this.penalties.filter(current => current.reason == penalty);
-	}
+	/**
+	 * Penalty Getters
+	 * 
+	 * Retrieves the penalty based on the given event.
+	 */
+	getListOf(penalty) { return this.penalties.filter(current => current.reason == penalty); }
+	getIdlePenalty() { return this.getListOf('CHANGE_FOCUS'); }
+	getCopyPenalty() { return this.getListOf('COPY'); }
+	getPastePenalty() {	return this.getListOf('PASTE'); }
 
 }
 
-const acfoc = new ACFOC({
-	scores: {
-		
-	},
-	allowCopy: true
-});
+const acfoc = new ACFOC();
 acfoc.initialize();
