@@ -14,7 +14,7 @@ class ACFOC {
 
 	DEFAULT_TIMEOUT = 30000;
 	DEFAULT_SCORE = 0.1;
-	VERSION = 'acfoc-0.0.0'
+	VERSION = 'acfoc-0.1.0'
 
 	/**
 	 * Create a new instance of ACFOC
@@ -153,6 +153,20 @@ class ACFOC {
 	_addEventPenalty(evt, cb) {
 		window.addEventListener(evt, cb);
 		return this;
+	}
+
+	/**
+	 * Returns true if the user have at least one penalty
+	 */
+	hasSuspectedCheating = () => {
+		return this.penalties.length > 0;
+	}
+
+	/**
+	 * Get the total score of penalties
+	 */
+	getTotalScore = () => {
+		return this.penalties.reduce((val, cur) => val + cur.score, 0);
 	}
 
 	/**
